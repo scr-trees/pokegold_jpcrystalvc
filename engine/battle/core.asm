@@ -3469,6 +3469,8 @@ TryToRunAwayFromBattle:
 	jp z, .can_escape
 	cp BATTLETYPE_TRAP
 	jp z, .cant_escape
+	cp BATTLETYPE_CELEBI
+	jp z, .cant_escape
 	cp BATTLETYPE_SHINY
 	jp z, .cant_escape
 
@@ -6543,7 +6545,9 @@ BadgeStatBoosts:
 .CheckBadge:
 	ld a, b
 	srl b
+	push af
 	call c, BoostStat
+	pop af
 	inc hl
 	inc hl
 ; Check every other badge.

@@ -344,7 +344,7 @@ PokeBallEffect:
 	and 1 << FRZ | SLP
 	ld c, 10
 	jr nz, .addstatus
-	; ld a, [wEnemyMonStatus]
+	ld a, [wEnemyMonStatus]
 	and a
 	ld c, 5
 	jr nz, .addstatus
@@ -544,6 +544,12 @@ PokeBallEffect:
 	ld a, [wBattleType]
 	cp BATTLETYPE_CONTEST
 	jp z, .catch_bug_contest_mon
+	cp BATTLETYPE_CELEBI
+	jr nz, .not_celebi
+	ld hl, wBattleResult
+	set BATTLERESULT_CAUGHT_CELEBI, [hl]
+.not_celebi
+
 	ld a, [wPartyCount]
 	cp PARTY_LENGTH
 	jr z, .SendToPC
@@ -904,7 +910,7 @@ MoonBallMultiplier:
 	push bc
 	ld a, BANK("Evolutions and Attacks")
 	call GetFarByte
-	cp MOON_STONE_RED ; BURN_HEAL
+	cp MOON_STONE
 	pop bc
 	ret nz
 
@@ -963,7 +969,7 @@ LoveBallMultiplier:
 	pop de
 	cp d
 	pop bc
-	ret nz ; for the intended effect, this should be "ret z"
+	ret z
 
 	sla b
 	jr c, .max
@@ -1001,7 +1007,7 @@ FastBallMultiplier:
 	cp -1
 	jr z, .next
 	cp c
-	jr nz, .next ; for the intended effect, this should be "jr nz, .loop"
+	jr nz, .loop
 	sla b
 	jr c, .max
 

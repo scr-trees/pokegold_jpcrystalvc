@@ -120,7 +120,7 @@
 	const EVERSTONE    ; 70
 	const SPELL_TAG    ; 71
 	const RAGECANDYBAR ; 72
-	const ITEM_73      ; 73
+	const GS_BALL      ; 73
 	const ITEM_74      ; 74
 	const MIRACLE_SEED ; 75
 	const THICK_CLUB   ; 76
@@ -134,7 +134,7 @@
 	const LUCKY_EGG    ; 7e
 	const CARD_KEY     ; 7f
 	const MACHINE_PART ; 80
-	const ITEM_81      ; 81
+	const EGG_TICKET   ; 81
 	const LOST_ITEM    ; 82
 	const STARDUST     ; 83
 	const STAR_PIECE   ; 84
@@ -311,7 +311,32 @@ ENDM
 	add_hm WATERFALL    ; f9
 NUM_HMS EQU __tmhm_value__ - NUM_TMS - 1
 
-NUM_TM_HM EQU NUM_TMS + NUM_HMS
+add_mt: MACRO
+; Defines two constants:
+; - \1_TMNUM: the learnable TM/HM flag, starting at 58
+; - MT##_MOVE: alias for the move id, equal to the value of \1
+if !DEF(MT01)
+MT01 EQU const_value
+endc
+MT_VALUE EQU __tmhm_value__ - NUM_TMS - NUM_HMS
+if MT_VALUE < 10
+MOVE_FOR_MT EQUS "MT0{d:MT_VALUE}_MOVE"
+else
+MOVE_FOR_MT EQUS "MT{d:MT_VALUE}_MOVE"
+endc
+MOVE_FOR_MT = \1
+PURGE MOVE_FOR_MT
+PURGE MT_VALUE
+	const MT_\1
+	add_tmnum \1
+ENDM
+
+	add_mt FLAMETHROWER
+	add_mt THUNDERBOLT
+	add_mt ICE_BEAM
+NUM_TUTORS EQU __tmhm_value__ - NUM_TMS - NUM_HMS - 1
+
+NUM_TM_HM EQU NUM_TMS + NUM_HMS + NUM_TUTORS
 
 	const ITEM_FA       ; fa
 

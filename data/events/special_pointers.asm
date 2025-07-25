@@ -124,6 +124,10 @@ SpecialsPointers::
 	add_special FadeOutMusic
 	add_special Diploma
 	add_special PrintDiploma
+	add_special GiveOddEgg
+	add_special MoveTutor
+	add_special CelebiShrineEvent
+	add_special CheckCaughtCelebi
 	add_special InitialSetDSTFlag
 	add_special InitialClearDSTFlag
 	add_special MrChrono

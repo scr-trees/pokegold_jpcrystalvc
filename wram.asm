@@ -315,6 +315,12 @@ NEXTU
 wHallOfFameTemp:: hall_of_fame wHallOfFameTemp
 
 NEXTU
+; odd egg
+wOddEgg:: party_struct wOddEgg
+wOddEggName:: ds MON_NAME_LENGTH
+wOddEggOT:: ds NAME_LENGTH
+
+NEXTU
 ; debug mon color picker
 wDebugMiddleColors::
 wDebugLightColor:: ds 2
@@ -1464,6 +1470,33 @@ wCreditsPos:: dw
 wCreditsTimer:: db
 
 NEXTU
+; mobile data
+wMobileMonSpeciesPointer:: dw
+wMobileMonStructPointer:: dw
+wMobileMonOTPointer:: dw
+wMobileMonNicknamePointer:: dw
+wMobileMonMailPointer:: dw
+
+wMobileMonSpecies::
+wcd2a:: db
+
+UNION
+wTempOddEggNickname:: ds MON_NAME_LENGTH
+NEXTU
+wcd2b:: ds 1
+wcd2c:: ds 1
+wcd2d:: ds 1
+wcd2e:: ds 1
+wcd2f:: ds 1
+wcd30:: ds 1
+wcd31:: ds 1
+wcd32:: ds 1
+wcd33:: ds 1
+wcd34:: ds 1
+wcd35:: ds 1
+ENDU
+
+NEXTU
 ; mail temp storage
 wTempMail:: mailmsg wTempMail
 
@@ -2574,8 +2607,10 @@ wRoute36NationalParkGateSceneID::                 db
 wAzaleaTownSceneID::                              db
 wGoldenrodGymSceneID::                            db
 wGoldenrodMagnetTrainStationSceneID::             db
+wGoldenrodPokecenter1FSceneID::                   db
 wOlivineCitySceneID::                             db
 wRoute34SceneID::                                 db
+wRoute34IlexForestGateSceneID::                   db
 wEcruteakTinTowerEntranceSceneID::                db
 wEcruteakPokecenter1FSceneID::                    db
 wMahoganyTownSceneID::                            db
@@ -2602,7 +2637,7 @@ wFastShip1FSceneID::                              db
 wFastShipB1FSceneID::                             db
 wMountMoonSquareSceneID::                         db
 
-	ds 197
+	ds 195
 
 wEventFlags:: flag_array NUM_EVENTS
 
@@ -2630,7 +2665,11 @@ wCurBox:: db
 ; 8 chars + $50
 wBoxNames:: ds BOX_NAME_LENGTH * NUM_BOXES
 
-	ds 2
+wCelebiEvent::
+; bit 2: forest is restless
+	db
+
+	ds 1
 
 wBikeFlags::
 ; bit 0: using strength

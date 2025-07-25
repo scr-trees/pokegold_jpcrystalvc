@@ -296,3 +296,9 @@ BUG_CONTESTANT_SIZE EQU 4
 	const UNOWNPUZZLE_AERODACTYL ; 2
 	const UNOWNPUZZLE_HO_OH      ; 3
 NUM_UNOWN_PUZZLES EQU const_value
+
+; MoveTutor setval arguments
+	const_def 1
+	const MOVETUTOR_FLAMETHROWER ; 1
+	const MOVETUTOR_THUNDERBOLT  ; 2
+	const MOVETUTOR_ICE_BEAM     ; 3

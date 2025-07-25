@@ -31,6 +31,20 @@ endc
 PURGE MOVE_FOR_HM
 n = n + 1
 endr
+	assert_table_length NUM_TMS + NUM_HMS
+
+; Move tutors
+n = 1
+rept NUM_TUTORS
+if n < 10
+MOVE_FOR_MT EQUS "MT0{d:n}_MOVE"
+else
+MOVE_FOR_MR EQUS "MT{d:n}_MOVE"
+endc
+	db MOVE_FOR_MT
+PURGE MOVE_FOR_MT
+n = n + 1
+endr
 	assert_table_length NUM_TM_HM
 
 	db 0 ; end

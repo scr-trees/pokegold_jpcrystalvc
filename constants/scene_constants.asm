@@ -75,6 +75,7 @@ SCENE_ALWAYS   EQU -1
 	const_def
 	const SCENE_AZALEATOWN_NOTHING              ; 0
 	const SCENE_AZALEATOWN_RIVAL_BATTLE         ; 1
+	const SCENE_AZALEATOWN_KURT_RETURNS_GS_BALL ; 2
 
 ; wGoldenrodGymSceneID
 	const_def

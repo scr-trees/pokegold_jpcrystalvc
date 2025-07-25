@@ -192,6 +192,12 @@ INCLUDE "engine/gfx/place_graphic.asm"
 INCLUDE "engine/pokemon/mail.asm"
 
 
+SECTION "Crystal Features 1", ROMX
+
+INCLUDE "engine/events/move_tutor.asm"
+INCLUDE "engine/events/celebi.asm"
+
+
 SECTION "bank14", ROMX
 
 INCLUDE "engine/pokemon/party_menu.asm"
@@ -428,6 +434,7 @@ INCLUDE "engine/rtc/print_hours_mins.asm"
 INCLUDE "engine/pokedex/pokedex_3.asm"
 INCLUDE "engine/events/catch_tutorial_input.asm"
 INCLUDE "engine/pokegear/townmap_convertlinebreakcharacters.asm"
+INCLUDE "engine/events/odd_egg.asm"
 
 PokegearGFX:
 INCBIN "gfx/pokegear/pokegear.2bpp.lz"

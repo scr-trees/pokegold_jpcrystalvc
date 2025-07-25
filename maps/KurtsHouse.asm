@@ -83,8 +83,18 @@ Kurt1:
 	iftrue .GiveHeavyBall
 	checkevent EVENT_GAVE_KURT_PNK_APRICORN
 	iftrue .GiveLoveBall
+	checkevent EVENT_CAN_GIVE_GS_BALL_TO_KURT
+	iftrue .CanGiveGSBallToKurt
+	checkflag ENGINE_FOREST_IS_RESTLESS
+	iftrue .AzaleaTownKurtScript
+.NoGSBall:
+	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_2
+	iftrue .CheckApricorns
+	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_3
+	iftrue .CheckApricorns
 	writetext KurtsHouseKurtBallsFromApricornsText
-	promptbutton
+	waitbutton
+.CheckApricorns:
 	checkitem RED_APRICORN
 	iftrue .AskApricorn
 	checkitem BLU_APRICORN
@@ -99,12 +109,23 @@ Kurt1:
 	iftrue .AskApricorn
 	checkitem PNK_APRICORN
 	iftrue .AskApricorn
+	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_2
+	iftrue .ThatTurnedOutGreat
+	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_3
+	iftrue .IMakeBallsFromApricorns
+	closetext
+	end
+
+.IMakeBallsFromApricorns:
+	writetext KurtsHouseKurtBallsFromApricornsText
+	waitbutton
 	closetext
 	end
 
 .AskApricorn:
 	writetext KurtsHouseKurtAskYouHaveAnApricornText
 	promptbutton
+	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_3
 	special SelectApricornForKurt
 	ifequal FALSE, .Cancel
 	ifequal BLU_APRICORN, .Blu
@@ -240,6 +261,68 @@ Kurt1:
 	iffalse .NoRoomForBall
 	clearevent EVENT_GAVE_KURT_PNK_APRICORN
 	sjump ._ThatTurnedOutGreat
+
+.CanGiveGSBallToKurt:
+	checkevent EVENT_GAVE_GS_BALL_TO_KURT
+	iftrue .GaveGSBallToKurt
+	checkitem GS_BALL
+	iffalse .NoGSBall
+	writetext KurtsHouseKurtWhatIsThatText
+	waitbutton
+	closetext
+	setevent EVENT_GAVE_GS_BALL_TO_KURT
+	takeitem GS_BALL
+	setflag ENGINE_KURT_MAKING_BALLS
+	end
+
+.GaveGSBallToKurt:
+	checkflag ENGINE_KURT_MAKING_BALLS
+	iffalse .NotMakingBalls
+	writetext KurtsHouseKurtImCheckingItNowText
+	waitbutton
+	writetext KurtsHouseKurtAhHaISeeText
+	waitbutton
+	closetext
+	end
+
+.NotMakingBalls:
+	writetext KurtsHouseKurtThisBallStartedToShakeText
+	waitbutton
+	setevent EVENT_FOREST_IS_RESTLESS
+	clearevent EVENT_CAN_GIVE_GS_BALL_TO_KURT
+	clearevent EVENT_GAVE_GS_BALL_TO_KURT
+	writetext AzaleaTownKurtText1
+	promptbutton
+	writetext AzaleaTownKurtText2
+	promptbutton
+	writetext AzaleaTownKurtText3
+	waitbutton
+	verbosegiveitem GS_BALL
+	setflag ENGINE_FOREST_IS_RESTLESS
+	setevent EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
+	closetext
+	end
+
+.AzaleaTownKurtScript:
+	writetext AzaleaTownKurtText3
+	waitbutton
+	closetext
+	end
+
+Kurt2:
+	faceplayer
+	opentext
+	checkevent EVENT_GAVE_GS_BALL_TO_KURT
+	iftrue KurtScript_ImCheckingItNow
+
+KurtScript_ImCheckingItNow:
+	writetext KurtsHouseKurtImCheckingItNowText
+	waitbutton
+	turnobject KURTSHOUSE_KURT2, UP
+	writetext KurtsHouseKurtAhHaISeeText
+	waitbutton
+	closetext
+	end
 
 KurtsGranddaughter:
 	faceplayer
@@ -421,6 +504,61 @@ KurtsHouseKurtTurnedOutGreatText:
 
 	para "Try catching"
 	line "#MON with it."
+	done
+
+KurtsHouseKurtWhatIsThatText:
+	text "Wh-what is that?"
+
+	para "I've never seen"
+	line "one before."
+
+	para "It looks a lot"
+	line "like a # BALL,"
+
+	para "but it appears to"
+	line "be something else."
+
+	para "Let me check it"
+	line "for you."
+	done
+
+KurtsHouseKurtImCheckingItNowText:
+	text "I'm checking it"
+	line "now."
+	done
+
+KurtsHouseKurtAhHaISeeText:
+	text "Ah-ha! I see!"
+	line "So…"
+	done
+
+KurtsHouseKurtThisBallStartedToShakeText:
+	text "<PLAYER>!"
+
+	para "This BALL started"
+	line "to shake while I"
+	cont "was checking it."
+
+	para "There must be"
+	line "something to this!"
+	done
+
+AzaleaTownKurtText1:
+	text "ILEX FOREST is"
+	line "restless!"
+
+	para "What is going on?"
+	done
+
+AzaleaTownKurtText2:
+	text "<PLAYER>, here's"
+	line "your GS BALL back!"
+	done
+
+AzaleaTownKurtText3:
+	text "Could you go see"
+	line "why ILEX FOREST is"
+	cont "so restless?"
 	done
 
 KurtsGranddaughterSlowpokeGoneText:

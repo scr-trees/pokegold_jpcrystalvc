@@ -127,6 +127,11 @@ SECTION "Extra Songs 2", ROMX
 INCLUDE "audio/music/postcredits.asm"
 
 
+SECTION "Extra Songs 3", ROMX
+
+INCLUDE "audio/music/suicunebattle.asm"
+
+
 SECTION "Sound Effects", ROMX
 
 INCLUDE "audio/sfx.asm"

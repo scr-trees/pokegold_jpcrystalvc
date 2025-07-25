@@ -876,7 +876,7 @@ JohtoGrassWildMons:
 	db 23, SWINUB
 	db 22, ZUBAT
 	db 22, JYNX
-	db 22, JYNX
+	db 22, SNEASEL
 	ELIF DEF(_SILVER)
 	; morn
 	db 21, SWINUB
@@ -901,7 +901,7 @@ JohtoGrassWildMons:
 	db 23, SWINUB
 	db 22, ZUBAT
 	db 22, JYNX
-	db 22, JYNX
+	db 22, SNEASEL
 	ENDC
 	end_grass_wildmons
 
@@ -930,8 +930,8 @@ JohtoGrassWildMons:
 	db 23, ZUBAT
 	db 24, SWINUB
 	db 23, ZUBAT
-	db 23, JYNX
-	db 23, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
 	ELIF DEF(_SILVER)
 	; morn
 	db 22, SWINUB
@@ -955,8 +955,8 @@ JohtoGrassWildMons:
 	db 23, DELIBIRD
 	db 24, SWINUB
 	db 23, ZUBAT
-	db 23, JYNX
-	db 23, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
 	ENDC
 	end_grass_wildmons
 
@@ -985,8 +985,8 @@ JohtoGrassWildMons:
 	db 23, ZUBAT
 	db 24, SWINUB
 	db 23, ZUBAT
-	db 23, JYNX
-	db 23, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
 	ELIF DEF(_SILVER)
 	; morn
 	db 22, SWINUB
@@ -1010,8 +1010,8 @@ JohtoGrassWildMons:
 	db 23, DELIBIRD
 	db 24, SWINUB
 	db 23, ZUBAT
-	db 23, JYNX
-	db 23, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
 	ENDC
 	end_grass_wildmons
 
@@ -1023,50 +1023,50 @@ JohtoGrassWildMons:
 	db 24, GOLBAT
 	db 24, ZUBAT
 	db 25, SWINUB
-	db 24, ZUBAT
+	db 22, JYNX
 	db 24, JYNX
-	db 24, JYNX
+	db 26, JYNX
 	; day
 	db 23, SWINUB
 	db 24, GOLBAT
 	db 24, ZUBAT
 	db 25, SWINUB
+	db 22, JYNX
 	db 24, JYNX
-	db 22, JYNX
-	db 22, JYNX
+	db 26, JYNX
 	; nite
 	db 23, SWINUB
 	db 24, GOLBAT
 	db 24, ZUBAT
 	db 25, SWINUB
-	db 24, ZUBAT
-	db 24, JYNX
-	db 24, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
+	db 26, SNEASEL
 	ELIF DEF(_SILVER)
 	; morn
 	db 23, SWINUB
 	db 24, GOLBAT
 	db 24, DELIBIRD
 	db 25, SWINUB
-	db 24, ZUBAT
+	db 22, JYNX
 	db 24, JYNX
-	db 24, JYNX
+	db 26, JYNX
 	; day
 	db 23, SWINUB
 	db 24, GOLBAT
 	db 24, DELIBIRD
 	db 25, SWINUB
+	db 22, JYNX
 	db 24, JYNX
-	db 22, JYNX
-	db 22, JYNX
+	db 26, JYNX
 	; nite
 	db 23, SWINUB
 	db 24, GOLBAT
 	db 24, DELIBIRD
 	db 25, SWINUB
-	db 24, ZUBAT
-	db 24, JYNX
-	db 24, JYNX
+	db 22, SNEASEL
+	db 24, SNEASEL
+	db 26, SNEASEL
 	ENDC
 	end_grass_wildmons
 
@@ -1521,7 +1521,7 @@ JohtoGrassWildMons:
 	db 2, ZUBAT
 	db 2, GEODUDE
 	db 4, GEODUDE
-	db 3, ZUBAT
+	db 2, TEDDIURSA
 	db 4, ZUBAT
 	db 4, DUNSPARCE
 	; day
@@ -1548,16 +1548,16 @@ JohtoGrassWildMons:
 	db 23, GEODUDE
 	db 23, ZUBAT
 	db 25, GRAVELER
-	db 20, WOBBUFFET
-	db 25, WOBBUFFET
+	db 25, URSARING
+	db 20, TEDDIURSA
 	db 23, GOLBAT
 	db 23, GOLBAT
 	; day
 	db 23, GEODUDE
 	db 23, ZUBAT
 	db 25, GRAVELER
-	db 20, WOBBUFFET
-	db 25, WOBBUFFET
+	db 25, URSARING
+	db 30, URSARING
 	db 23, GOLBAT
 	db 23, GOLBAT
 	; nite
@@ -1619,12 +1619,12 @@ JohtoGrassWildMons:
 	db 5, METAPOD
 	; nite
 	db 3, SPINARAK
-	db 3, RATTATA
+	db 3, HOOTHOOT
+	db 4, POLIWAG
+	db 4, HOOTHOOT
 	db 4, HOOTHOOT
 	db 4, RATTATA
-	db 4, HOOTHOOT
-	db 4, HOOTHOOT
-	db 4, HOOTHOOT
+	db 4, RATTATA
 	ELIF DEF(_SILVER)
 	; morn
 	db 3, LEDYBA
@@ -1645,9 +1645,9 @@ JohtoGrassWildMons:
 	; nite
 	db 2, HOOTHOOT
 	db 3, RATTATA
+	db 4, POLIWAG
 	db 4, HOOTHOOT
 	db 4, RATTATA
-	db 4, HOOTHOOT
 	db 4, HOOTHOOT
 	db 4, HOOTHOOT
 	ENDC
@@ -1674,7 +1674,7 @@ JohtoGrassWildMons:
 	db 6, METAPOD
 	; nite
 	db 4, SPINARAK
-	db 4, RATTATA
+	db 4, POLIWAG
 	db 3, BELLSPROUT
 	db 5, RATTATA
 	db 5, HOOTHOOT
@@ -1699,7 +1699,7 @@ JohtoGrassWildMons:
 	db 6, KAKUNA
 	; nite
 	db 3, HOOTHOOT
-	db 4, RATTATA
+	db 4, POLIWAG
 	db 3, BELLSPROUT
 	db 5, RATTATA
 	db 5, HOOTHOOT
@@ -2225,12 +2225,12 @@ JohtoGrassWildMons:
 	db 26, LICKITUNG
 	; nite
 	db 23, TANGELA
-	db 22, WEEPINBELL
+	db 22, POLIWAG
 	db 22, BELLSPROUT
-	db 24, LICKITUNG
 	db 24, WEEPINBELL
-	db 26, LICKITUNG
-	db 26, LICKITUNG
+	db 24, POLIWHIRL
+	db 26, POLIWHIRL
+	db 26, POLIWHIRL
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_45

@@ -37,8 +37,10 @@ MapScenes::
 	scene_var AZALEA_TOWN,                                 wAzaleaTownSceneID
 	scene_var GOLDENROD_GYM,                               wGoldenrodGymSceneID
 	scene_var GOLDENROD_MAGNET_TRAIN_STATION,              wGoldenrodMagnetTrainStationSceneID
+	scene_var GOLDENROD_POKECENTER_1F,                     wGoldenrodPokecenter1FSceneID
 	scene_var OLIVINE_CITY,                                wOlivineCitySceneID
 	scene_var ROUTE_34,                                    wRoute34SceneID ; unused
+	scene_var ROUTE_34_ILEX_FOREST_GATE,                   wRoute34IlexForestGateSceneID
 	scene_var ECRUTEAK_TIN_TOWER_ENTRANCE,                 wEcruteakTinTowerEntranceSceneID
 	scene_var ECRUTEAK_POKECENTER_1F,                      wEcruteakPokecenter1FSceneID
 	scene_var MAHOGANY_TOWN,                               wMahoganyTownSceneID

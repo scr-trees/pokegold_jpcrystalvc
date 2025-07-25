@@ -4,7 +4,7 @@
 	const GOLDENRODCITY_COOLTRAINER_F1
 	const GOLDENRODCITY_COOLTRAINER_F2
 	const GOLDENRODCITY_YOUNGSTER2
-	const GOLDENRODCITY_LASS
+	const GOLDENRODCITY_MOVETUTOR
 	const GOLDENRODCITY_GRAMPS
 	const GOLDENRODCITY_ROCKETSCOUT
 	const GOLDENRODCITY_ROCKET1
@@ -19,11 +19,136 @@ GoldenrodCity_MapScripts:
 
 	def_callbacks
 	callback MAPCALLBACK_NEWMAP, .FlyPoint
+	callback MAPCALLBACK_OBJECTS, .MoveTutor
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_GOLDENROD
 	setflag ENGINE_REACHED_GOLDENROD
 	endcallback
+
+.MoveTutor:
+	checkevent EVENT_BEAT_ELITE_FOUR
+	iffalse .MoveTutorDone
+	checkitem COIN_CASE
+	iffalse .MoveTutorDisappear
+	readvar VAR_WEEKDAY
+	ifequal WEDNESDAY, .MoveTutorAppear
+	ifequal SATURDAY, .MoveTutorAppear
+.MoveTutorDisappear:
+	disappear GOLDENRODCITY_MOVETUTOR
+	endcallback
+
+.MoveTutorAppear:
+	checkflag ENGINE_DAILY_MOVE_TUTOR
+	iftrue .MoveTutorDone
+	appear GOLDENRODCITY_MOVETUTOR
+.MoveTutorDone:
+	endcallback
+
+MoveTutorScript:
+	faceplayer
+	opentext
+	writetext GoldenrodCityMoveTutorAskTeachAMoveText
+	yesorno
+	iffalse .Refused
+	special DisplayCoinCaseBalance
+	writetext GoldenrodCityMoveTutorAsk50CoinsOkayText
+	yesorno
+	iffalse .Refused2
+	checkcoins 4000
+	ifequal HAVE_LESS, .NotEnoughMoney
+	writetext GoldenrodCityMoveTutorWhichMoveShouldITeachText
+	loadmenu .MoveMenuHeader
+	verticalmenu
+	closewindow
+	ifequal MOVETUTOR_FLAMETHROWER, .Flamethrower
+	ifequal MOVETUTOR_THUNDERBOLT, .Thunderbolt
+	ifequal MOVETUTOR_ICE_BEAM, .IceBeam
+	sjump .Incompatible
+
+.Flamethrower:
+	setval MOVETUTOR_FLAMETHROWER
+	writetext GoldenrodCityMoveTutorMoveText
+	special MoveTutor
+	ifequal FALSE, .TeachMove
+	sjump .Incompatible
+
+.Thunderbolt:
+	setval MOVETUTOR_THUNDERBOLT
+	writetext GoldenrodCityMoveTutorMoveText
+	special MoveTutor
+	ifequal FALSE, .TeachMove
+	sjump .Incompatible
+
+.IceBeam:
+	setval MOVETUTOR_ICE_BEAM
+	writetext GoldenrodCityMoveTutorMoveText
+	special MoveTutor
+	ifequal FALSE, .TeachMove
+	sjump .Incompatible
+
+.MoveMenuHeader:
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 2, 15, TEXTBOX_Y - 1
+	dw .MenuData
+	db 1 ; default option
+
+.MenuData:
+	db STATICMENU_CURSOR ; flags
+	db 4 ; items
+	db "FLAMETHROWER@"
+	db "THUNDERBOLT@"
+	db "ICE BEAM@"
+	db "CANCEL@"
+
+.Refused:
+	writetext GoldenrodCityMoveTutorAwwButTheyreAmazingText
+	waitbutton
+	closetext
+	end
+
+.Refused2:
+	writetext GoldenrodCityMoveTutorHmTooBadText
+	waitbutton
+	closetext
+	end
+
+.TeachMove:
+	writetext GoldenrodCityMoveTutorIfYouUnderstandYouveMadeItText
+	promptbutton
+	takecoins 4000
+	waitsfx
+	playsound SFX_TRANSACTION
+	special DisplayCoinCaseBalance
+	writetext GoldenrodCityMoveTutorFarewellKidText
+	waitbutton
+	closetext
+	readvar VAR_FACING
+	ifequal LEFT, .WalkAroundPlayer
+	applymovement GOLDENRODCITY_MOVETUTOR, GoldenrodCityMoveTutorEnterGameCornerMovement
+	sjump .GoInside
+
+.WalkAroundPlayer:
+	applymovement GOLDENRODCITY_MOVETUTOR, GoldenrodCityMoveTutorWalkAroundPlayerThenEnterGameCornerMovement
+.GoInside:
+	playsound SFX_ENTER_DOOR
+	disappear GOLDENRODCITY_MOVETUTOR
+	clearevent EVENT_GOLDENROD_GAME_CORNER_MOVE_TUTOR
+	setflag ENGINE_DAILY_MOVE_TUTOR
+	waitsfx
+	end
+
+.Incompatible:
+	writetext GoldenrodCityMoveTutorBButText
+	waitbutton
+	closetext
+	end
+
+.NotEnoughMoney:
+	writetext GoldenrodCityMoveTutorYouDontHaveEnoughCoinsText
+	waitbutton
+	closetext
+	end
 
 GoldenrodCityPokefanMScript:
 	jumptextfaceplayer GoldenrodCityPokefanMText
@@ -66,8 +191,8 @@ GoldenrodCityCooltrainerF2Script:
 GoldenrodCityYoungster2Script:
 	jumptextfaceplayer GoldenrodCityYoungster2Text
 
-GoldenrodCityLassScript:
-	jumptextfaceplayer GoldenrodCityLassText
+;GoldenrodCityLassScript:
+;	jumptextfaceplayer GoldenrodCityLassText
 
 GoldenrodCityGrampsScript:
 	jumptextfaceplayer GoldenrodCityGrampsText
@@ -134,6 +259,20 @@ GoldenrodCityUndergroundSignSouth:
 GoldenrodCityPokecenterSign:
 	jumpstd PokecenterSignScript
 
+GoldenrodCityMoveTutorEnterGameCornerMovement:
+	step RIGHT
+	step RIGHT
+	step UP
+	step_end
+
+GoldenrodCityMoveTutorWalkAroundPlayerThenEnterGameCornerMovement:
+	step DOWN
+	step RIGHT
+	step RIGHT
+	step UP
+	step UP
+	step_end
+
 GoldenrodCityPokefanMText:
 	text "They built the new"
 	line "RADIO TOWER to"
@@ -197,13 +336,75 @@ GoldenrodCityYoungster2Text:
 	line "DEPT.STORE."
 	done
 
-GoldenrodCityLassText:
-	text "The man at that"
-	line "house rates your"
-	cont "#MON names."
+;GoldenrodCityLassText:
+	;text "The man at that"
+	;line "house rates your"
+	;cont "#MON names."
 
-	para "He can even rename"
-	line "your #MON."
+	;para "He can even rename"
+	;line "your #MON."
+	;done
+
+GoldenrodCityMoveTutorAskTeachAMoveText:
+	text "I can teach your"
+	line "#MON amazing"
+
+	para "moves if you'd"
+	line "like."
+
+	para "Should I teach a"
+	line "new move?"
+	done
+
+GoldenrodCityMoveTutorAsk50CoinsOkayText:
+	text "It will cost you"
+	line "4000 coins. Okay?"
+	done
+
+GoldenrodCityMoveTutorAwwButTheyreAmazingText:
+	text "Aww… But they're"
+	line "amazing…"
+	done
+
+GoldenrodCityMoveTutorWhichMoveShouldITeachText:
+	text "Wahahah! You won't"
+	line "regret it!"
+
+	para "Which move should"
+	line "I teach?"
+	done
+
+GoldenrodCityMoveTutorHmTooBadText:
+	text "Hm, too bad. I'll"
+	line "have to get some"
+	cont "cash from home…"
+	done
+
+GoldenrodCityMoveTutorIfYouUnderstandYouveMadeItText:
+	text "If you understand"
+	line "what's so amazing"
+
+	para "about this move,"
+	line "you've made it as"
+	cont "a trainer."
+	done
+
+GoldenrodCityMoveTutorFarewellKidText:
+	text "Wahahah!"
+	line "Farewell, kid!"
+	done
+
+GoldenrodCityMoveTutorBButText:
+	text "B-but…"
+	done
+
+GoldenrodCityMoveTutorYouDontHaveEnoughCoinsText:
+	text "…You don't have"
+	line "enough coins here…"
+	done
+
+GoldenrodCityMoveTutorMoveText:
+	text_start
 	done
 
 GoldenrodCityGrampsText:
@@ -370,9 +571,9 @@ GoldenrodCity_MapEvents:
 	object_event 12, 16, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, GoldenrodCityCooltrainerF1Script, EVENT_GOLDENROD_CITY_CIVILIANS
 	object_event 20, 26, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WANDER, 1, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityCooltrainerF2Script, EVENT_GOLDENROD_CITY_CIVILIANS
 	object_event 19, 17, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, GoldenrodCityYoungster2Script, EVENT_GOLDENROD_CITY_CIVILIANS
-	object_event 17, 10, SPRITE_LASS, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, GoldenrodCityLassScript, EVENT_GOLDENROD_CITY_CIVILIANS
+	object_event 12, 22, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, MoveTutorScript, EVENT_GOLDENROD_CITY_MOVE_TUTOR
 	object_event 11, 27, SPRITE_GRAMPS, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityGrampsScript, EVENT_GOLDENROD_CITY_CIVILIANS
-	object_event  4, 16, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityRocketScoutScript, EVENT_GOLDENROD_CITY_ROCKET_SCOUT
+  object_event  4, 16, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityRocketScoutScript, EVENT_GOLDENROD_CITY_ROCKET_SCOUT
 	object_event 28, 20, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityRocket1Script, EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	object_event  8, 15, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityRocket2Script, EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	object_event 16, 23, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodCityRocket3Script, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
